@@ -13,8 +13,14 @@ It is written with no trailing newline, so the entry is exactly 3 bytes.
 """
 
 import os
+import re
 
 ENTRY = "137"
+# The gate, enforced here before anything is written: 1 to 5 characters,
+# digits only. If ENTRY is ever changed to something the gate refuses,
+# the program fails loudly instead of submitting an invalid entry.
+_GATE = re.compile(r"[0-9]{1,5}\Z")
+assert _GATE.fullmatch(ENTRY), f"ENTRY {ENTRY!r} fails the gate (1-5 digits)"
 OUTPUT_DIR = os.environ.get("OUTPUT_DIR", "/output")
 PATH = os.path.join(OUTPUT_DIR, "entry.txt")
 
